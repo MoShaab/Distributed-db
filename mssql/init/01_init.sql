@@ -1,14 +1,13 @@
 
 -- MSSQL (Administrative)
-CREATE TABLE departments (
+CREATE TABLE IF NOT EXISTS departments (
     department_id INT IDENTITY(1,1) PRIMARY KEY,
     department_name VARCHAR(100) NOT NULL UNIQUE,
     budget DECIMAL(12,2),
-    location VARCHAR(100),
     created_at DATETIME DEFAULT GETDATE()
 );
 
-CREATE TABLE faculty (
+CREATE TABLE IF NOT EXISTS faculty (
     faculty_id INT IDENTITY(1,1) PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
@@ -20,25 +19,60 @@ CREATE TABLE faculty (
     created_at DATETIME DEFAULT GETDATE()
 );
 
-CREATE TABLE financial_records (
+CREATE TABLE IF NOT EXISTS financial_records (
     record_id INT IDENTITY(1,1) PRIMARY KEY,
     department_id INT REFERENCES departments(department_id),
-    fiscal_year INT,
-    quarter INT CHECK (quarter BETWEEN 1 AND 4),
-    budget_allocated DECIMAL(12,2),
     budget_spent DECIMAL(12,2),
+    fiscal_year INT, 
     created_at DATETIME DEFAULT GETDATE(),
-    UNIQUE (department_id, fiscal_year, quarter)
+    UNIQUE (department_id, fiscal_year)
 );
 
---Fragments
+--Financial_records Fragments
 
+-- current_financial fragment
+CREATE TABLE current_financial_records (
+    record_id INT PRIMARY KEY,
+    department_id INT,
+    budget_spent DECIMAL(10,2),
+    fiscal_year INT
+
+);
+
+-- previous_financial fragment
+CREATE TABLE previous_financial_records (
+    record_id INT PRIMARY KEY,
+    department_id INT,
+    budget_spent DECIMAL(10,2),
+    fiscal_year INT
+
+);
+
+-- historical_financial fragment
+
+
+CREATE TABLE historical_financial_records (
+    record_id INT PRIMARY KEY,
+    department_id INT,
+    budget_spent DECIMAL(10,2),
+    fiscal_year INT
+    
+);
 -- Major departments fragment
 CREATE TABLE major_departments (
     department_id INT IDENTITY(1,1) PRIMARY KEY,
     department_name VARCHAR(100) NOT NULL UNIQUE,
     budget DECIMAL(12,2)
 );
+
+-- Major departments fragment
+CREATE TABLE minor_departments (
+    department_id INT IDENTITY(1,1) PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL UNIQUE,
+    budget DECIMAL(12,2)
+);
+
+
 
 -- Active faculty fragment
 CREATE TABLE active_faculty (
@@ -47,4 +81,22 @@ CREATE TABLE active_faculty (
     last_name VARCHAR(50) NOT NULL,
     department_id INT,
     status VARCHAR(20) DEFAULT 'Active'
+);
+
+-- Active faculty fragment
+CREATE TABLE retired_faculty (
+    faculty_id INT IDENTITY(1,1) PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    department_id INT,
+    status VARCHAR(20) DEFAULT 'Retired'
+);
+
+-- Active faculty fragment
+CREATE TABLE onleave_faculty (
+    faculty_id INT IDENTITY(1,1) PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    department_id INT,
+    status VARCHAR(20) DEFAULT 'On Leave'
 );

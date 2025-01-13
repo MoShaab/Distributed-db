@@ -43,6 +43,15 @@ CREATE TABLE active_students (
     status VARCHAR(20) DEFAULT 'Active'
 );
 
+CREATE TABLE graduated_students (
+    student_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    program_id INT,
+    status VARCHAR(20) DEFAULT 'Graduated'
+);
+
 -- Courses basic fragment
 CREATE TABLE courses_basic (
     course_id SERIAL PRIMARY KEY,

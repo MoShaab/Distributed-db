@@ -41,8 +41,31 @@ CREATE TABLE current_enrollments (
     status VARCHAR(20) DEFAULT 'Enrolled'
 );
 
+CREATE TABLE completed_enrollments (
+    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    semester VARCHAR(20) NOT NULL,
+    status VARCHAR(20) DEFAULT 'Completed'
+);
+
+CREATE TABLE dropped_enrollments (
+    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    semester VARCHAR(20) NOT NULL,
+    status VARCHAR(20) DEFAULT 'Dropped'
+);
+
 -- Active grades fragment
 CREATE TABLE active_grades (
+    grade_id INT AUTO_INCREMENT PRIMARY KEY,
+    enrollment_id INT NOT NULL,
+    grade_value DECIMAL(4,2),
+    grade_status VARCHAR(20) DEFAULT 'Pending'
+);
+
+CREATE TABLE inactive_grades (
     grade_id INT AUTO_INCREMENT PRIMARY KEY,
     enrollment_id INT NOT NULL,
     grade_value DECIMAL(4,2),

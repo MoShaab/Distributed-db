@@ -38,6 +38,7 @@ CREATE TABLE current_enrollments (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
     semester VARCHAR(20) NOT NULL,
+    enrollment_date DATE NOT NULL,
     status VARCHAR(20) DEFAULT 'Enrolled'
 );
 
@@ -46,6 +47,7 @@ CREATE TABLE completed_enrollments (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
     semester VARCHAR(20) NOT NULL,
+    enrollment_date DATE NOT NULL,
     status VARCHAR(20) DEFAULT 'Completed'
 );
 
@@ -54,6 +56,7 @@ CREATE TABLE dropped_enrollments (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
     semester VARCHAR(20) NOT NULL,
+    enrollment_date DATE NOT NULL,
     status VARCHAR(20) DEFAULT 'Dropped'
 );
 

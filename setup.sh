@@ -16,3 +16,4 @@ echo "Distributing data across fragments..."
 python scripts/python/distribute_data.py
 
 echo "Fragmentation complete!"
+
